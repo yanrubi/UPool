@@ -1,0 +1,70 @@
+<html lang="en">
+	<head>
+		<title>UPool</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="test.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+  
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>                        
+					</button>
+					<a class="navbar-brand" href="#">UPool</a>
+				</div>
+				<div class="collapse navbar-collapse" id="myNavbar">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="#">Riders</a></li>
+						<li><a href="#">Drivers</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<div class="dropdown">
+							<button class ="dropbtn" onclick="myFunction()"><span class="glyphicon glyphicon-user"></span> Profile &#9660;</button>
+							<div id = "myDropdown" class="dropdown-content">
+								<a href="#">My UPOOL</a>
+								<a href="#">Settings</a>
+								<a href="#">Log Out</a>
+							</div>
+							
+						</div>
+						<script>
+							function myFunction() {
+								document.getElementById("myDropdown").classList.toggle("show");
+							}
+							
+							window.onclock = function(event) {
+								var dropdowns = document.getElementsByClassName("dropdown-content");
+								var i;
+								for(i = 0; i <dropdowns.length;i++) {
+									var openDropdown = dropdowns[i];
+									if (openDropdown.classList.contains('show')) {
+										openDropdown.classList.remove('show');
+									}
+								}
+							}
+						</script>
+						
+					</ul>
+				</div>
+			</div>
+		</nav>
+		
+		<div class="sidebar">
+			<br />
+			&nbsp;&nbsp;<input type="search" id="query" placeholder="Search...">
+		</div>
+		
+  
+		<footer class="container-fluid text-center">
+			 &copy; UPool Team
+		</footer>
+	</body>
+</html>
