@@ -61,12 +61,20 @@
 			<br />
 			&nbsp;&nbsp;<input type="search" id="start" placeholder="Choose starting location..."><br /><br />
 			&nbsp;&nbsp;<input type="search" id="destination" placeholder="Choose destination..."><br /><br />
+			&nbsp;&nbsp;Date:&nbsp;<input type="date" id="date" min="2017-5-1">&nbsp;&nbsp;
+			&nbsp;&nbsp;<input type="checkbox" id="repeat" value="repeat">&nbsp;&nbsp;Repeat Weekly?<br /><br />
+			&nbsp;&nbsp;Start Time:&nbsp;<input type="time" id="starttime" step="300">
+			&nbsp;&nbsp;Arrival Time:&nbsp;<input type="time" id="arrivaltime" step="300">
 		</div>
 		
 		<div class="body">
 			<div id="map"></div>
 		</div>
 		<script>
+			//Date functions(restrict people form picking past dates)
+			var today = new Date().toISOString().split('T')[0];
+			document.getElementById("date")[0].setAttrivute('min', today);
+			
 			//Google Maps initialization, requesting location services from user
 			var map, infoWindow, marker = null, markerA = null, markerB = null;
 			var geocoder;
@@ -116,6 +124,7 @@
 						}
 						pointA = results[0].geometry.location;
 						map.setCenter(results[0].geometry.location);
+						document.getElementById("start").value = results[0].formatted_address;
 						markerA = new google.maps.Marker({map: map, position: results[0].geometry.location});
 						if (pointB !== null) {
 							directions();
@@ -137,6 +146,7 @@
 						}
 						pointB = results[0].geometry.location;
 						map.setCenter(results[0].geometry.location);
+						document.getElementById("destination").value = results[0].formatted_address;
 						markerB = new google.maps.Marker({map: map, position: results[0].geometry.location});
 						if (pointA != null) {
 							directions();
@@ -165,6 +175,12 @@
 				});
 				console.log("getting directions 4");
 			}
+			
+		//Autocomplete initialization
+			function initStartAutocomplete() {
+				
+			}
+			
 			
 			document.getElementById("start").addEventListener("keyup", function(event) {
 				console.log("start enter press");
