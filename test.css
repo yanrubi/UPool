@@ -38,8 +38,8 @@
 .show {display:block;}
 
 .sidebar {
-    width: 40vh;
-    height: 95vh;
+    width: 400px;
+    height: 950px;
     position: fixed;
     left: 0px;
     top: 55px;
@@ -106,10 +106,10 @@ input[type=search]:focus {
 }
 
 .body{
-    width: 150vh;
-    height: 94.5vh;
+    width: 79.1vw;
+    height: 94.4vh;
     position: fixed;
-    left: 40vh;
+    left: 400px;
     top: 55px;
     border: 1px solid black;
 }
