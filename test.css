@@ -7,10 +7,6 @@
     cursor: pointer;
 }
 
-.dropbtn:hover, .dropbtn:focus {
-    background-color: black;
-}
-
 .dropdown {
     position: relative;
     display: inline-block;
@@ -21,7 +17,6 @@
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
-    overflow: auto;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
@@ -33,13 +28,21 @@
     display: block;
 }
 
-.dropdown a:hover {background-color: white}
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: black;
+}
 
 .show {display:block;}
 
 .sidebar {
-    width: 400px;
-    height: 950px;
+    width: 21.9vw;
+    height: 94.4vh;
     position: fixed;
     left: 0px;
     top: 55px;
@@ -80,15 +83,15 @@ input[type=search]:focus {
 
 #start{
     position: relative;
-    width: 350px;
+    width: 20vw;
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-    background-color: white;
-    background-image: url('searchicon.png');
-    background-position: 10px 10px;
-    background-repeat: no repeat;
+    background-position: 4px center;
+    background-image: url(searchicon.png);
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
     padding: 12px 20px 12px 40px;
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
@@ -96,15 +99,15 @@ input[type=search]:focus {
 
 #destination{
     position: relative;
-    width: 350px;
+    width: 20vw;
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-    background-color: white;
-    background-image: url('searchicon.png');
-    background-position: 10px 10px;
-    background-repeat: no repeat;
+    background-position: 4px center;
+    background-image: url(searchicon.png);
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
     padding: 12px 20px 12px 40px;
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
@@ -114,7 +117,7 @@ input[type=search]:focus {
     width: 79.1vw;
     height: 94.4vh;
     position: fixed;
-    left: 400px;
+    left: 21.0vw;
     top: 55px;
     border: 1px solid black;
 }
