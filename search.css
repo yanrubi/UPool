@@ -54,6 +54,18 @@
     color: red;
     font-size: 100%;
 }
+
+/* Remove the navbar's default rounded borders and increase the bottom margin */ 
+.navbar {
+  margin-bottom: 50px;
+  border-radius: 0;
+}
+
+/* Remove the jumbotron's default bottom margin */ 
+ .jumbotron {
+  margin-bottom: 0;
+}
+
 /*
 .input[type=search] {
     position: absolute;

@@ -13,13 +13,26 @@ function initMap() {
     directionsDisplay = new google.maps.DirectionsRenderer();
     directionsService = new google.maps.DirectionsService();
     map = new google.maps.Map(document.getElementById('map'), {zoom: 17, center: {lat: 38.986918, lng: -76.942554}});
-    marker = new google.maps.Marker({position: {lat: 38.986918, lng: -76.942554}, map: map});
+    marker = new google.maps.Marker({map: map});
     infoWindow = new google.maps.InfoWindow();
     directionsDisplay.setMap(map);
     
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {lat: position.coords.latitude, lng: position.coords.longitude};
+            
+            geocoder.geocode({'latLng': pos}, function (results, status) {
+                if (status == 'OK') {
+                    pointA = results[0].geometry.location;
+                    document.getElementById("start").value = results[0].formatted_address;
+                    markerA = new google.maps.Marker({map: map, position: results[0].geometry.location});
+                    if (pointB !== null) {
+                        directions();
+                    }
+                } else {
+                    alert('Geocoder failed due to: ' + status);
+                }
+            });
             
             infoWindow.setPosition(pos);
             map.setCenter(pos);
@@ -40,11 +53,11 @@ function initMap() {
     google.maps.event.addDomListener(window, 'load', initMap);
 }
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+/*function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
+    //infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
-}
+}*/
 //Geocoding
 function codeStart() {
     var address = document.getElementById("start").value;
@@ -143,20 +156,21 @@ function processData() {
     } else {
         document.getElementById("timeerror").innerHTML = "&nbsp;";
     }
-    
 }
 
-
-document.getElementById("start").addEventListener("keyup", function(event) {
-    event.preventDefault();
-    if (event.keyCode == 13) {
-        codeStart();
-    }
+$(function(){ // this will be called when the DOM is ready
+    document.getElementById("start").addEventListener("keydown", function(event) {
+        if (event.keyCode == 13 || event.keyCode == 9) {
+            codeStart();
+        }
+    });
 });
 
-document.getElementById("destination").addEventListener("keyup", function(event) {
-    event.preventDefault();
-    if (event.keyCode == 13) {
-        codeDestination();
-    }
+$(function(){ // this will be called when the DOM is ready
+    document.getElementById("destination").addEventListener("keyup", function(event) {
+        event.preventDefault();
+        if (event.keyCode == 13 || event.keyCode == 9) {
+            codeDestination();
+        }
+    });
 });
