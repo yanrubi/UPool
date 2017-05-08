@@ -134,6 +134,11 @@ input[type=search]:focus {
     border: 1px solid black;
 }
 
+.carpool{
+	width: 100%;
+	font-size: 80%;
+}
+
 /* From https://css-tricks.com/pop-from-top-notification/ */
 
 #note {
