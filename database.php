@@ -1,12 +1,16 @@
 <?php
 
+    //require_once("support.php");
+
     session_start();
+    //$top = "";
+    //$bottom = "";
 
     function connectToDB() {
 	    $host = "localhost";
-	    $user = "upooluser";
+	    $user = "dbuser";
 	    $password = "pass";
-	    $database = "upooldb";
+	    $database = "app";
 
 	    $db = mysqli_connect($host, $user, $password, $database);
 	    if (mysqli_connect_errno()) {
@@ -55,7 +59,7 @@
 		if ($selectResult) {
 			if (mysqli_num_rows($selectResult) != 0) {
 				$record = mysqli_fetch_array($selectResult, MYSQLI_ASSOC);
-				if ($record['password'] === $password) {
+				if ($record['password'] == $password) {
 					session_start();
 					$_SESSION["userid"] = $record['userid'];
 					mysqli_free_result($selectResult);
@@ -95,7 +99,21 @@
 		mysqli_close($db);
 		return false;
 	}
-	
+	function getAllPassengersForCar($carpoolid){
+		$array = array();
+		$db = connectToDB();
+		$query = sprintf("select * from %s where carpoolid='%s'", "passengertable", $carpoolid);
+		$selectResult = mysqli_query($db, $query);
+		if ($selectResult) {
+			while ($record = mysqli_fetch_array($selectResult, MYSQLI_ASSOC)) {
+				array_push($array, $record);
+			}
+			return $array;
+		}
+		mysqli_free_result($selectResult);
+		mysqli_close($db);
+		return false;
+	}
 	function getAllCarpoolRecords() {
 		$array = array();
 		$db = connectToDB();
@@ -111,7 +129,25 @@
 		mysqli_close($db);
 		return false;
 	}
-	
+	function getAllCarpoolRecordsForUserAsPassenger($userid) {
+		$array = array();
+		$db = connectToDB();
+		$query = sprintf("select * from %s where passengeruserid='%s'", "passengertable", $userid);
+		$selectResult = mysqli_query($db, $query);
+		if ($selectResult) {
+			while ($record = mysqli_fetch_array($selectResult, MYSQLI_ASSOC)) {
+				$query2 = sprintf("select * from %s where carpoolid='%s'", "carpooltable", $record["carpoolid"]);
+				$selectResult2 = mysqli_query($db, $query2);
+				while ($record2 = mysqli_fetch_array($selectResult2, MYSQLI_ASSOC)) {
+					array_push($array, $record2);
+				}
+			}
+			return $array;
+		}
+		mysqli_free_result($selectResult);
+		mysqli_close($db);
+		return false;
+	}
 	function getNumPassengers($carpoolid) {
 		$db = connectToDB();
 		$query = sprintf("select * from %s where carpoolid='%s'", "passengertable", $carpoolid);
@@ -255,7 +291,7 @@
 		$email = trim($_POST["email"]);
 		$password = trim($_POST["password"]);
 		if (login($email, $password)) {
-			header('Location: search_riders.php');
+			header('Location: search.html');
 		}
 		else {
 			header('Location: main.html');
@@ -278,7 +314,11 @@
 			
 		createCarpool($userid, $start, $destination, $date, $starttime, $arrivaltime, $repeatweekly, $seats);
 	}
-	else if (!isset($_SESSION['userid'])){
-		header('Location: main.html');
-	}
+    elseif (isset($_SESSION["userid"])) 
+	{}else {
+        header('Location: main.html');
+    }
+
+    //$page = generatePage($top.$bottom);
+    //echo $page;
 ?>
