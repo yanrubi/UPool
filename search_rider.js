@@ -1,3 +1,5 @@
+window.onsubmit=processData;
+
 //Date functions(restrict people form picking past dates)
 //
 
@@ -24,7 +26,7 @@ function initMap() {
             geocoder.geocode({'latLng': pos}, function (results, status) {
                 if (status == 'OK') {
                     pointA = results[0].geometry.location;
-                    document.getElementById("start").value = results[0].formatted_address;
+                    document.getElementById("start").value = results[0].formatted_address.replace(", USA", "");
                     markerA = new google.maps.Marker({map: map, position: results[0].geometry.location});
                     if (pointB !== null) {
                         directions();
@@ -36,7 +38,7 @@ function initMap() {
             
             infoWindow.setPosition(pos);
             map.setCenter(pos);
-            marker.setPosition(pos);
+            markerA.setPosition(pos);
         }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
         });
@@ -69,7 +71,7 @@ function codeStart() {
             }
             pointA = results[0].geometry.location;
             map.setCenter(results[0].geometry.location);
-            document.getElementById("start").value = results[0].formatted_address;
+            document.getElementById("start").value = results[0].formatted_address.replace(", USA", "");
             markerA = new google.maps.Marker({map: map, position: results[0].geometry.location});
             if (pointB !== null) {
                 directions();
@@ -90,7 +92,7 @@ function codeDestination() {
             }
             pointB = results[0].geometry.location;
             map.setCenter(results[0].geometry.location);
-            document.getElementById("destination").value = results[0].formatted_address;
+            document.getElementById("destination").value = results[0].formatted_address.replace(", USA", "");
             markerB = new google.maps.Marker({map: map, position: results[0].geometry.location});
             if (pointA !== null) {
                 directions();
@@ -134,29 +136,70 @@ function processData() {
     console.log(arrivalTime.value);
     console.log(today);
     
+    let isValid = true;
     if (pointA === null) {
         document.getElementById("starterror").innerHTML = "&nbsp;&nbsp;Enter a starting location";
+        isValid = false;
     } else {
         document.getElementById("starterror").innerHTML = "&nbsp;";
     }
     if (pointB === null) {
         document.getElementById("destinationerror").innerHTML = "&nbsp;&nbsp;Enter a destination location";
+        isValid = false;
     } else {
         document.getElementById("destinationerror").innerHTML = "&nbsp;";
     }
     if (date.value === "") {
         document.getElementById("dateerror").innerHTML = "&nbsp;&nbsp;Enter a date";
+        isValid = false;
     } else if(date.value < today) {
         document.getElementById("dateerror").innerHTML = "&nbsp;&nbsp;Invalid date";
+        isValid = false;
     } else {
         document.getElementById("dateerror").innerHTML = "&nbsp;";
     }
     if (startTime.value === "" && arrivalTime.value === "") {
         document.getElementById("timeerror").innerHTML = "&nbsp;&nbsp;Please enter a start or arrival time";
+        isValid = false;
     } else {
         document.getElementById("timeerror").innerHTML = "&nbsp;";
     }
+    
+    if (!isValid) {
+        return false;
+    } else {
+        addRowHandlers();
+        return true;
+    }
 }
+
+/*        var p = {
+            onload: $(function() {
+                let rows = document.getElementById("mytable").rows;
+                for(let i = 0, ceiling = rows.length; i < ceiling; i++) {
+                    rows[i].onclick = (function() {
+                        let id = "start"+i;
+                        document.getElementById("start").value = document.getElementById(id).innerHTML;
+                            codeStart();
+                            codeDestination();
+                        return function() {
+                        };
+                    })(i);
+                }
+            })
+        };*/
+        
+$(function(){ // this will be called when the DOM is ready
+    document.getElementById("list").addEventListener("click", function(e) {
+        if (e.target && e.target.nodeName == "LI") {
+            let id = "start"+e.target.id;
+            document.getElementById("start").value = document.getElementById(id).innerHTML;
+            document.getElementById("destination").value = document.getElementById("destination"+e.target.id).innerHTML;
+            codeStart();
+            codeDestination();
+        }
+    });
+});
 
 $(function(){ // this will be called when the DOM is ready
     document.getElementById("start").addEventListener("keydown", function(event) {
