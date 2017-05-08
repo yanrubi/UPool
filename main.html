@@ -8,11 +8,21 @@
   <link rel="stylesheet" href="main.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="main.js"></script>
 </head>
 
 <body background="umd_flag.jpg">
 
+    <script>
+      function displayRegister() {
+          document.getElementById("login").style.display = "none";
+          document.getElementById("register").style.display = "block";
+      };
+      function displayLogin() {
+          document.getElementById("register").style.display = "none";
+          document.getElementById("login").style.display = "block";
+      };
+  </script>
+  
   <div class="jumbotron" style="background-color: black;">
     <div class="container text-center">
       <h1><span style="color:red">U</span><span style="color:white">POOL</span></h1>      
@@ -35,31 +45,53 @@
           <li><a href="search_riders.php">Riders</a></li>
           <li><a href="search.html">Drivers</a></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#"><span class="glyphicon glyphicon-user"></span> Log in</a></li>
+        <ul id="navbaropt" class="nav navbar-nav navbar-right">
+          <li><a href="javascript:displayRegister();"><span class="glyphicon glyphicon-user"></span> <span id="navbaroptMsg">Register</span></a></li>
+          <li><a href="javascript:displayLogin();"><span class="glyphicon glyphicon-user"></span> <span id="navbaroptMsg">Log in</span></a></li>
         </ul>
       </div>
     </div>
   </nav>
   
   <div class="right">
-    <h2>Sign up</h2>
-    <form action="/action_page.php">
-      <div class="container">
-        <label><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="uname" required>
-    
-        <label><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required>
-        
-        <label><b>Confirm password</b></label>
-        <input type="password" placeholder="Confirm Password" name="psw_confirm" required>
-            
-        <button type="submit">Login</button>
-        <input type="checkbox" checked="checked"> Remember me
-        <span class="psw"><a href="#" style="color:white">Forgot password?</a></span>
-      </div>
-    </form>
+    <div id="login" style="display: block">
+      <form action="database.php" method="post">
+        <h2>Log in</h2>
+        <div class="container">
+          <label><b>Email</b></label>
+          <input class="inputtext" type="email" placeholder="Enter Email" name="email" required />
+
+          <label><b>Password</b></label>
+          <input class="inputtext" type="password" placeholder="Enter Password" name="password" required />
+
+          <input type="submit" name="login" value="Log In" />
+
+          <input type="checkbox" /> Remember me
+          <span class="psw"><a href="#" style="color:white">Forgot password?</a></span>
+        </div>
+      </form>
+    </div>
+    <div id="register" style="display: none">
+      <form action="database.php" method="post">
+        <h2>Register</h2>
+        <div class="container">
+          <label><b>Email</b></label>
+          <input class="inputtext" type="email" placeholder="Enter Email" name="email" required />
+
+          <label><b>Name</b></label><br />
+          <input class="inputname" type="text" placeholder="First Name" name="firstname" required />
+          <input class="inputname" type="text" placeholder="Last Name" name="lastname" required />
+
+          <label><b>Password</b></label>
+          <input class="inputtext" type="password" placeholder="Enter Password" name="password" required />
+
+          <label><b>Confirm Password</b></label>
+          <input class="inputtext" type="password" placeholder="Confirm Password" name="cpassword" required />
+
+          <input type="submit" name="register" value="Register" />
+        </div>
+      </form>
+    </div>
   </div>
   
   <footer class="container-fluid text-center">
