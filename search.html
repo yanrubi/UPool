@@ -25,34 +25,15 @@
 						<li class="active"><a href="#">Riders</a></li>
 						<li><a href="#">Drivers</a></li>
 					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<div class="dropdown">
-							<button class ="dropbtn" onclick="myFunction()"><span class="glyphicon glyphicon-user"></span> Profile &#9660;</button>
-							<div id = "myDropdown" class="dropdown-content">
-								<a href="#">My UPOOL</a>
-								<a href="#">Settings</a>
-								<a href="#">Log Out</a>
-							</div>
-							
-						</div>
-						<script>
-							function myFunction() {
-								document.getElementById("myDropdown").classList.toggle("show");
-							}
-							
-							window.onclock = function(event) {
-								var dropdowns = document.getElementsByClassName("dropdown-content");
-								var i;
-								for(i = 0; i <dropdowns.length;i++) {
-									var openDropdown = dropdowns[i];
-									if (openDropdown.classList.contains('show')) {
-										openDropdown.classList.remove('show');
-									}
-								}
-							};
-						</script>
-						
-					</ul>
+					
+					<div class="dropdown navbar-right">
+					<button class="dropbtn">Profile &#9660;</button>
+					<div class="dropdown-content">
+					  <a href="#">My UPOOL</a>
+					  <a href="#">Settings</a>
+					  <a href="#">Log out</a>
+					</div>
+				  </div>
 				</div>
 			</div>
 		</nav>
@@ -69,7 +50,7 @@
 			&nbsp;&nbsp;Start Time:&nbsp;<input type="time" id="starttime" step="300">
 			&nbsp;&nbsp;Arrival Time:&nbsp;<input type="time" id="arrivaltime" step="300"><br />
 			<div class="error" id="timeerror">&nbsp;</div>
-			&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button onclick="processData()">Make carpool</button>
+			&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button onclick="processData();">Make carpool</button>
 		</div>
 		
 		<div class="body">
@@ -92,7 +73,7 @@
 				directionsService = new google.maps.DirectionsService();
 				map = new google.maps.Map(document.getElementById('map'), {zoom: 17, center: {lat: 38.986918, lng: -76.942554}});
 				marker = new google.maps.Marker({position: {lat: 38.986918, lng: -76.942554}, map: map});
-				infoWindow = new google.maps.InfoWindow;
+				infoWindow = new google.maps.InfoWindow();
 				directionsDisplay.setMap(map);
 				
 				if (navigator.geolocation) {
@@ -109,6 +90,14 @@
 				} else {
 					handleLocationError(false, infoWindow, map.getCenter());
 				}
+				
+				
+				google.maps.event.addDomListener(window, "resize", function() {
+					var center = map.getCenter();
+					google.maps.event.trigger(map, "resize");
+					map.setCenter(center); 
+				 });
+				google.maps.event.addDomListener(window, 'load', initMap);
 			}
 			
 			function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -150,7 +139,7 @@
 						map.setCenter(results[0].geometry.location);
 						document.getElementById("destination").value = results[0].formatted_address;
 						markerB = new google.maps.Marker({map: map, position: results[0].geometry.location});
-						if (pointA != null) {
+						if (pointA !== null) {
 							directions();
 						}
 					} else {
@@ -237,9 +226,5 @@
 				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGf2V7XQSqJgEyp4oinoyA3dCyzb-CHn4&callback=initMap">
 			
 		</script>
-  
-		<footer class="container-fluid text-center">
-			 &copy; UPool Team
-		</footer>
 	</body>
 </html>
