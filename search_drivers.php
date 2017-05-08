@@ -2,7 +2,8 @@
 	declare(strict_types=1);
 	include 'database.php';
 	
-	session_start();
+	//$userid = $_SESSION["userid"];
+	$userid = 1;
 	$page = "";
 
 	$page .= <<<PAGE
@@ -22,8 +23,6 @@
 PAGE;
 
 if (isset($_POST['submit'])) {
-	
-		$userid = $_SESSION["userid"];
 		$start = strval($_POST["start"]);
 		$destination = strval($_POST["destination"]);
 		$date = strval($_POST["date"]);
@@ -99,9 +98,34 @@ $page .= <<<PAGE
 					&nbsp;&nbsp;&nbsp;&nbsp;# of seats&nbsp;<input type="number" name="seats" id="seats" min="1" max="6">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 					<input name="submit" type="submit" onclick="return processData();" value="Make Carpool"/><br />
 					<div class="error" id="seatserror">&nbsp;</div>
-					
-					<div id="carpools"></div>
 				</form>
+PAGE;
+$page .= '<div class="container"><h3><strong>Carpools</strong></h3><hr/><ul id="list" style="padding: 0; list-style: none;">';
+$carpools = getAllCarpoolRecordsForUser($userid);
+if($carpools) {
+	$size = count($carpools);
+	if ($size > 7) {
+		$size = 7;
+	}
+	for($i = 0 ; $i < $size ; $i++) {
+		$line = "";
+		$carpool = $carpools[$i];
+		$from = $carpool['start'];
+		$to = $carpool['destination'];
+		$fromtime = $carpool['starttime'];
+		$totime = $carpool['arrivaltime'];
+		$day = $carpool['date'];
+		$line .= "<div id='carpool'>";
+		$line .= "Leave from: ".$from;
+		$line .= "<br />Arrive at: ".$to;
+		$line .= "<br />On: ".$day."&emsp;&emsp;&emsp;&emsp;";
+		$line .= "<div>";
+		$page .= $line;
+	}
+}
+	
+
+$page .= <<<PAGE
 			</div>
 	
 			<div class="body">
