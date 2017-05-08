@@ -55,7 +55,7 @@
 		if ($selectResult) {
 			if (mysqli_num_rows($selectResult) != 0) {
 				$record = mysqli_fetch_array($selectResult, MYSQLI_ASSOC);
-				if ($record['password'] == $password) {
+				if ($record['password'] === $password) {
 					session_start();
 					$_SESSION["userid"] = $record['userid'];
 					mysqli_free_result($selectResult);
@@ -255,7 +255,7 @@
 		$email = trim($_POST["email"]);
 		$password = trim($_POST["password"]);
 		if (login($email, $password)) {
-			header('Location: search.html');
+			header('Location: search_riders.php');
 		}
 		else {
 			header('Location: main.html');

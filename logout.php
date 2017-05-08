@@ -1,5 +1,4 @@
 <?php
-	session_start();
 	session_unset();
 	$page = <<<PAGE
 <!DOCTYPE html>
