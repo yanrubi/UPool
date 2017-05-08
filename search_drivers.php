@@ -2,27 +2,9 @@
 	declare(strict_types=1);
 	include 'database.php';
 	
-	session_start();
+	$userid = $_SESSION["userid"];
 	$page = "";
-	if (isset($_POST['submit'])) {
-		$userid = $_SESSION["userid"];
-		$start = $_POST["start"];
-		$destination = $_POST["destination"];
-		$date = $_POST["date"];
-		if (isset($_POST["repeat"])) {
-			$repeat = true;
-		} else $repeat = false;
-		$starttime = $_POST["starttime"];
-		$arrivaltime = $_POST["arrivaltime"];
-		$seats = $_POST["seats"];
-		
-		if(createCarpool($userid, $start, $destination, $date, $starttime, $arrivaltime, $repeat, $seats)) {
-			$page .= "Succesfully submitted";
-		} else {
-			$page .= "Failed to submit";
-		}
-	} else {
-		$page .= <<<PAGE
+	$page .= <<<PAGE
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -35,8 +17,16 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="search_drivers.js"></script>
 	</head>
-	
 	<body>
+PAGE;
+if (isset($_POST["submit"])) {
+				$page .= <<<EOBODY
+				<div id="note">
+					Succesfully Submitted <a id="close">[close]</a>
+				</div>
+EOBODY;
+			}
+$page .= <<<PAGE
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -56,7 +46,7 @@
 					<div class="dropdown navbar-right">
 						<button class="dropbtn">Profile &#9660;</button>
 						<div class="dropdown-content">
-						  <a href="#">My UPOOL</a>
+						  <a href="profile.php">My UPOOL</a>
 						  <a href="#">Settings</a>
 						  <a href="logout.php">Log out</a>
 						</div>
@@ -78,12 +68,36 @@
 					&nbsp;&nbsp;Start Time:&nbsp;<input type="time" id="starttime" name="starttime" step="300">
 					&nbsp;&nbsp;Arrival Time:&nbsp;<input type="time" id="arrivaltime" name="arrivaltime" step="300"><br />
 					<div class="error" id="timeerror">&nbsp;</div>
-					&nbsp;&nbsp;&nbsp;&nbsp;# of seats&nbsp;<input type="number" name="seats" min="1" max="6">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-					<input name="submit" type="submit" onsubmit="return processData();" value="Make Carpool"/><br />
+					&nbsp;&nbsp;&nbsp;&nbsp;# of seats&nbsp;<input type="number" name="seats" id="seats" min="1" max="6">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+					<input name="submit" type="submit" onclick="return processData();" value="Make Carpool"/><br />
 					<div class="error" id="seatserror">&nbsp;</div>
-					
-					<div id="carpools"></div>
 				</form>
+PAGE;
+$page .= '<div class="container"><h3><strong>Carpools</strong></h3><hr/><ul id="list" style="padding: 0; list-style: none;">';
+$carpools = getAllCarpoolRecordsForUser($userid);
+if($carpools) {
+	$size = count($carpools);
+	if ($size > 7) {
+		$size = 7;
+	}
+	for($i = 0 ; $i < $size ; $i++) {
+		$line = "";
+		$carpool = $carpools[$i];
+		$from = $carpool['start'];
+		$to = $carpool['destination'];
+		$fromtime = $carpool['starttime'];
+		$totime = $carpool['arrivaltime'];
+		$day = $carpool['date'];
+		$line .= "<div id='carpool'>";
+		$line .= "<b>From:</b> ".$from;
+		$line .= "<br /><b>To:</b> ".$to;
+		$line .= "<br /><b>On:</b> ".$day."&emsp;&emsp;&emsp;&emsp;";
+		$line .= "<div>";
+		$page .= $line;
+	}
+}
+	
+$page .= <<<PAGE
 			</div>
 	
 			<div class="body">
@@ -93,10 +107,16 @@
 		<script async defer
 				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGf2V7XQSqJgEyp4oinoyA3dCyzb-CHn4&callback=initMap">
 		</script>
+		<script>
+			close = document.getElementById("close");
+			close.addEventListener('click', function() {
+				note = document.getElementById("note");
+				note.style.display = 'none';
+			}, false);
+		</script>
 	</body>
 </html>
 PAGE;
-	}
 	
 	echo $page;
 ?>

@@ -129,33 +129,48 @@ function processData() {
     var startTime = document.getElementById("starttime");
     var arrivalTime = document.getElementById("arrivaltime");
     var today = new Date().toISOString().split('T')[0];
-    console.log(date.value);
-    console.log(startTime.value);
-    console.log(arrivalTime.value);
-    console.log(today);
+	var canSubmit = true;
+	var seats = document.getElementById("seats");
+	
+	console.log(seats);
     
     if (pointA === null) {
+		return false;
         document.getElementById("starterror").innerHTML = "&nbsp;&nbsp;Enter a starting location";
+		
     } else {
         document.getElementById("starterror").innerHTML = "&nbsp;";
     }
     if (pointB === null) {
+		return false;
         document.getElementById("destinationerror").innerHTML = "&nbsp;&nbsp;Enter a destination location";
+		
     } else {
         document.getElementById("destinationerror").innerHTML = "&nbsp;";
     }
     if (date.value === "") {
         document.getElementById("dateerror").innerHTML = "&nbsp;&nbsp;Enter a date";
+		canSubmit = false;
     } else if(date.value < today) {
         document.getElementById("dateerror").innerHTML = "&nbsp;&nbsp;Invalid date";
+		canSubmit = false;
     } else {
         document.getElementById("dateerror").innerHTML = "&nbsp;";
     }
     if (startTime.value === "" && arrivalTime.value === "") {
-        document.getElementById("timeerror").innerHTML = "&nbsp;&nbsp;Please enter a start or arrival time";
+        document.getElementById("timeerror").innerHTML = "&nbsp;&nbsp;Enter a start or arrival time";
+		canSubmit = false;
     } else {
         document.getElementById("timeerror").innerHTML = "&nbsp;";
     }
+	if (seats.value === "") {
+		document.getElementById("seatserror").innerHTML = "&nbsp;&nbsp;Enter # of seats";
+		canSubmit = false;
+	} else {
+		document.getElementById("seatserror").innerHTML = "&nbsp;";
+	}
+	console.log(canSubmit);
+	return canSubmit;
 }
 
 $(function(){ // this will be called when the DOM is ready
