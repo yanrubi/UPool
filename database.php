@@ -1,10 +1,6 @@
 <?php
 
-    //require_once("support.php");
-
     session_start();
-    //$top = "";
-    //$bottom = "";
 
     function connectToDB() {
 	    $host = "localhost";
@@ -282,11 +278,8 @@
 			
 		createCarpool($userid, $start, $destination, $date, $starttime, $arrivaltime, $repeatweekly, $seats);
 	}
-    elseif (isset($_SESSION["userid"])) 
-	{}else {
-        header('Location: main.html');
+	else if (!isset($_SESSION['userid'])){
+		header('Location: main.html');
+	}
     }
-
-    //$page = generatePage($top.$bottom);
-    //echo $page;
 ?>
