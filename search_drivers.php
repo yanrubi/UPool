@@ -4,25 +4,8 @@
 	
 	session_start();
 	$page = "";
-	if (isset($_POST['submit'])) {
-		$userid = $_SESSION["userid"];
-		$start = $_POST["start"];
-		$destination = $_POST["destination"];
-		$date = $_POST["date"];
-		if (isset($_POST["repeat"])) {
-			$repeat = true;
-		} else $repeat = false;
-		$starttime = $_POST["starttime"];
-		$arrivaltime = $_POST["arrivaltime"];
-		$seats = $_POST["seats"];
-		
-		if(createCarpool($userid, $start, $destination, $date, $starttime, $arrivaltime, $repeat, $seats)) {
-			$page .= "Succesfully submitted";
-		} else {
-			$page .= "Failed to submit";
-		}
-	} else {
-		$page .= <<<PAGE
+
+	$page .= <<<PAGE
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -35,8 +18,43 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="search_drivers.js"></script>
 	</head>
-	
 	<body>
+PAGE;
+
+if (isset($_POST['submit'])) {
+	
+		$userid = $_SESSION["userid"];
+		$start = strval($_POST["start"]);
+		$destination = strval($_POST["destination"]);
+		$date = strval($_POST["date"]);
+		if (isset($_POST["repeat"])) {
+			$repeat = strval($_POST["repeat"]);
+		} else $repeat = "";
+		if (isset($_POST["starttime"]) && ($_POST["starttime"] !== "")) {
+			$starttime = strval($_POST["starttime"]);
+		} else $starttime = "";
+		if (isset($_POST["arrivaltime"]) && ($_POST["arrivaltime"] !== "")) {
+			$arrivaltime = strval($_POST["arrivaltime"]);
+		} else $arrivaltime = "";
+		$seats = strval($_POST["seats"]);
+		
+		if(createCarpool($userid, $start, $destination, $date, $starttime, $arrivaltime, $repeat, $seats)) {
+			$page .= <<<EOBODY
+				<div id="note">
+					Succesfully Submitted <a id="close">[close]</a>
+				</div>
+EOBODY;
+		} else {
+			$page .= <<<EOBODY
+				<div id="note">
+					Failed to submit. Issue with server <a id="close">[close]</a>
+				</div>
+EOBODY;
+		}
+	} 
+
+
+$page .= <<<PAGE
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -78,8 +96,8 @@
 					&nbsp;&nbsp;Start Time:&nbsp;<input type="time" id="starttime" name="starttime" step="300">
 					&nbsp;&nbsp;Arrival Time:&nbsp;<input type="time" id="arrivaltime" name="arrivaltime" step="300"><br />
 					<div class="error" id="timeerror">&nbsp;</div>
-					&nbsp;&nbsp;&nbsp;&nbsp;# of seats&nbsp;<input type="number" name="seats" min="1" max="6">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-					<input name="submit" type="submit" onsubmit="return processData();" value="Make Carpool"/><br />
+					&nbsp;&nbsp;&nbsp;&nbsp;# of seats&nbsp;<input type="number" name="seats" id="seats" min="1" max="6">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+					<input name="submit" type="submit" onclick="return processData();" value="Make Carpool"/><br />
 					<div class="error" id="seatserror">&nbsp;</div>
 					
 					<div id="carpools"></div>
@@ -93,10 +111,16 @@
 		<script async defer
 				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGf2V7XQSqJgEyp4oinoyA3dCyzb-CHn4&callback=initMap">
 		</script>
+		<script>
+			close = document.getElementById("close");
+			close.addEventListener('click', function() {
+				note = document.getElementById("note");
+				note.style.display = 'none';
+			}, false);
+		</script>
 	</body>
 </html>
 PAGE;
-	}
 	
 	echo $page;
 ?>
