@@ -2,8 +2,7 @@
 	declare(strict_types=1);
 	include 'database.php';
 	
-	//$userid = $_SESSION["userid"];
-	$userid = 1;
+	$userid = $_SESSION["userid"];
 	$page = "";
 
 	$page .= <<<PAGE
@@ -22,35 +21,13 @@
 	<body>
 PAGE;
 
-if (isset($_POST['submit'])) {
-		$start = strval($_POST["start"]);
-		$destination = strval($_POST["destination"]);
-		$date = strval($_POST["date"]);
-		if (isset($_POST["repeat"])) {
-			$repeat = strval($_POST["repeat"]);
-		} else $repeat = "";
-		if (isset($_POST["starttime"]) && ($_POST["starttime"] !== "")) {
-			$starttime = strval($_POST["starttime"]);
-		} else $starttime = "";
-		if (isset($_POST["arrivaltime"]) && ($_POST["arrivaltime"] !== "")) {
-			$arrivaltime = strval($_POST["arrivaltime"]);
-		} else $arrivaltime = "";
-		$seats = strval($_POST["seats"]);
-		
-		if(createCarpool($userid, $start, $destination, $date, $starttime, $arrivaltime, $repeat, $seats)) {
-			$page .= <<<EOBODY
+if (isset($_POST["submit"])) {
+				$page .= <<<EOBODY
 				<div id="note">
 					Succesfully Submitted <a id="close">[close]</a>
 				</div>
 EOBODY;
-		} else {
-			$page .= <<<EOBODY
-				<div id="note">
-					Failed to submit. Issue with server <a id="close">[close]</a>
-				</div>
-EOBODY;
-		}
-	} 
+			}
 
 
 $page .= <<<PAGE
@@ -73,7 +50,7 @@ $page .= <<<PAGE
 					<div class="dropdown navbar-right">
 						<button class="dropbtn">Profile &#9660;</button>
 						<div class="dropdown-content">
-						  <a href="#">My UPOOL</a>
+						  <a href="profile.php">My UPOOL</a>
 						  <a href="#">Settings</a>
 						  <a href="logout.php">Log out</a>
 						</div>
@@ -116,9 +93,9 @@ if($carpools) {
 		$totime = $carpool['arrivaltime'];
 		$day = $carpool['date'];
 		$line .= "<div id='carpool'>";
-		$line .= "Leave from: ".$from;
-		$line .= "<br />Arrive at: ".$to;
-		$line .= "<br />On: ".$day."&emsp;&emsp;&emsp;&emsp;";
+		$line .= "<b>From:</b> ".$from;
+		$line .= "<br /><b>To:</b> ".$to;
+		$line .= "<br /><b>On:</b> ".$day."&emsp;&emsp;&emsp;&emsp;";
 		$line .= "<div>";
 		$page .= $line;
 	}

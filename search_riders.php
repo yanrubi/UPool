@@ -46,9 +46,9 @@ PAGE;
 					<div class="dropdown navbar-right">
 						<button class="dropbtn">Profile &#9660;</button>
 						<div class="dropdown-content">
-						  <a href="#">My UPOOL</a>
+						  <a href="profile.php">My UPOOL</a>
 						  <a href="#">Settings</a>
-						  <a href="#">Log out</a>
+						  <a href="logout.php">Log out</a>
 						</div>
 					</div>
 				</div>
@@ -116,9 +116,9 @@ PAGE1;
 					<div class="dropdown navbar-right">
 						<button class="dropbtn">Profile &#9660;</button>
 						<div class="dropdown-content">
-						  <a href="#">My UPOOL</a>
+						  <a href="profile.php">My UPOOL</a>
 						  <a href="#">Settings</a>
-						  <a href="#">Log out</a>
+						  <a href="logout.php">Log out</a>
 						</div>
 					</div>
 				</div>
