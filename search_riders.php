@@ -2,6 +2,8 @@
 	declare(strict_types=1);
 	require_once("database.php");
 	
+	$userid = $_SESSION["userid"];
+	
 	$page = <<<PAGE
 <!DOCTYPE html>
 <html lang="en">
@@ -15,17 +17,6 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="search_riders.js"></script>
 	</head>
-PAGE;
-
-	if (isset($_POST['submit']) && isset($_POST['start']) && isset($_POST['destination']) && isset($_POST['date'])
-		&& isset($_POST['starttime']) && isset($_POST['arrivaltime'])) {
-		$start = $_POST['start'];
-		$destination = $_POST['destination'];
-		$date = $_POST['date'];
-		$starttime = $_POST['starttime'];
-		$arrivaltime = $_POST['arrivaltime'];
-		
-		$page .=  <<<PAGE
 	<body>
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
@@ -47,13 +38,44 @@ PAGE;
 						<button class="dropbtn">Profile &#9660;</button>
 						<div class="dropdown-content">
 						  <a href="profile.php">My UPOOL</a>
-						  <a href="#">Settings</a>
 						  <a href="logout.php">Log out</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</nav>
+PAGE;
+
+
+	if (isset($_GET["carpoolid"]) || (isset($_POST['submit']) && isset($_POST['start']) && isset($_POST['destination']) && isset($_POST['date'])
+		&& isset($_POST['starttime']) && isset($_POST['arrivaltime']))) {
+	
+		$start = "";
+		$destination = "";
+		$date = "";
+		$starttime = "";
+		$arrivaltime="";
+		if (isset($_GET["carpoolid"])) {
+			addPassenger($_GET["carpoolid"], $userid);
+			$start = $_SESSION['start'];
+			$destination = $_SESSION['destination'];
+			$date = $_SESSION['date'];
+			$starttime = $_SESSION['starttime'];
+			$arrivaltime = $_SESSION['arrivaltime'];
+		} else {
+			$_SESSION['start'] = $_POST['start'];
+			$_SESSION['destination'] = $_POST['destination'];
+			$_SESSION['date'] = $_POST['date'];
+			$_SESSION['starttime'] = $_POST['starttime'];
+			$_SESSION['arrivaltime'] = $_POST['arrivaltime'];
+			$start = $_POST['start'];
+			$destination = $_POST['destination'];
+			$date = $_POST['date'];
+			$starttime = $_POST['starttime'];
+			$arrivaltime = $_POST['arrivaltime'];
+		}
+		
+		$page .= <<<PAGE
 		<div class="sidebar">
 			<br />
 				&nbsp;&nbsp;<input type="search" id="start" name="start" placeholder="Choose starting location..." value="$start">
@@ -72,14 +94,34 @@ PAGE;
 PAGE;
 
         $page .= '<div class="container"><br/><h3><strong>Carpools</strong></h3><hr/><ul id="list" style="padding: 0; list-style: none;">';
-        
-        for ($i = 0; $i < 7; $i++) {
-            $page .= "<li id='$i'>";
-            $page .= '<strong>From: </strong><span id="start'.$i.'">'.$start.'</span>';
-			$page .= '<br/><strong>To: </strong><span id="destination'.$i.'">'.$destination."</span><br/><strong>Seats: </strong>3<br/>";
-			$page .= '<input id="join'.$i.'" type="button" value="Join"/>';
-            $page .= '<hr/></li>';
+        $records = getAllCarpoolRecords();
+		//print_r($records);
+		$notFound = true;
+        for ($i = 0; $i < sizeof($records); $i++) {
+			$carpoolid = $records{$i}['carpoolid'];
+			if (!isPassenger($carpoolid, $userid)) {
+				$notFound = false;
+				$seats = $records{$i}['seats'];
+				$startloc = $records{$i}['start'];
+				$destloc = $records{$i}['destination'];
+				$dateTime = $records{$i}['date'];
+				$starttime = $records{$i}['starttime'];
+				$arrivaltime = $records{$i}['arrivaltime'];
+				$page .= "<li id='$carpoolid'>";
+				$page .= '<strong>From: </strong><span id="start'.$carpoolid.'">'.$startloc.'</span>';
+				$page .= '<br/><strong>To: </strong><span id="destination'.$carpoolid.'">'.$destloc."</span>";
+				$page .= "<br/><strong>On: </strong><span id='date$carpoolid'>$dateTime</span>";
+				$page .= "<br/><strong>Start Time: </strong><span id='start$carpoolid'>$starttime</span>";
+				$page .= "<br/><strong>Arrival Time: </strong><span id='start$carpoolid'>$arrivaltime</span>";
+				$page .= "<br/><strong>Seats: </strong>$seats<br/>";
+				$page .= "<input id='join$carpoolid' type='button' value='Join'/>";
+				$page .= '<hr/></li>';
+			}
         }
+		
+		if ($notFound) {
+			$page .= "No Carpool Found";
+		}
 
 		$page .= <<<PAGE1
 				</ul></div>
@@ -96,34 +138,6 @@ PAGE;
 PAGE1;
 	} else {
 		$page .= <<<PAGE
-	<body>
-		<nav class="navbar navbar-inverse">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>                        
-					</button>
-					<a class="navbar-brand" href="main.html">UPool</a>
-				</div>
-				<div class="collapse navbar-collapse" id="myNavbar">
-					<ul class="nav navbar-nav">
-						<li class="active"><a href="search_riders.php">Riders</a></li>
-						<li><a href="search_drivers.php">Drivers</a></li>
-					</ul>
-					
-					<div class="dropdown navbar-right">
-						<button class="dropbtn">Profile &#9660;</button>
-						<div class="dropdown-content">
-						  <a href="profile.php">My UPOOL</a>
-						  <a href="#">Settings</a>
-						  <a href="logout.php">Log out</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</nav>
 		<div class="sidebar">
 			<br />
 			<form action="{$_SERVER["PHP_SELF"]}" method="post">

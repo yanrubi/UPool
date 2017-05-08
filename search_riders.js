@@ -60,6 +60,7 @@ function initMap() {
     //infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
 }*/
+
 //Geocoding
 function codeStart() {
     var address = document.getElementById("start").value;
@@ -172,22 +173,6 @@ function processData() {
         return true;
     }
 }
-
-/*        var p = {
-            onload: $(function() {
-                let rows = document.getElementById("mytable").rows;
-                for(let i = 0, ceiling = rows.length; i < ceiling; i++) {
-                    rows[i].onclick = (function() {
-                        let id = "start"+i;
-                        document.getElementById("start").value = document.getElementById(id).innerHTML;
-                            codeStart();
-                            codeDestination();
-                        return function() {
-                        };
-                    })(i);
-                }
-            })
-        };*/
         
 $(function(){ // this will be called when the DOM is ready
     document.getElementById("list").addEventListener("click", function(e) {
@@ -197,6 +182,9 @@ $(function(){ // this will be called when the DOM is ready
             document.getElementById("destination").value = document.getElementById("destination"+e.target.id).innerHTML;
             codeStart();
             codeDestination();
+        } else if (e.target && e.target.nodeName == "INPUT") {
+            let carpoolid = e.target.id.replace("join", "");
+            window.location.href = ("search_riders.php?carpoolid=" + carpoolid);
         }
     });
 });

@@ -4,7 +4,6 @@
 	
 	$userid = $_SESSION["userid"];
 	$page = "";
-
 	$page .= <<<PAGE
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +19,6 @@
 	</head>
 	<body>
 PAGE;
-
 if (isset($_POST["submit"])) {
 				$page .= <<<EOBODY
 				<div id="note">
@@ -28,8 +26,6 @@ if (isset($_POST["submit"])) {
 				</div>
 EOBODY;
 			}
-
-
 $page .= <<<PAGE
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
@@ -101,7 +97,6 @@ if($carpools) {
 	}
 }
 	
-
 $page .= <<<PAGE
 			</div>
 	

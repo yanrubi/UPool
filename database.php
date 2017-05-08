@@ -55,7 +55,7 @@
 		if ($selectResult) {
 			if (mysqli_num_rows($selectResult) != 0) {
 				$record = mysqli_fetch_array($selectResult, MYSQLI_ASSOC);
-				if ($record['password'] === $password) {
+				if ($record['password'] == $password) {
 					session_start();
 					$_SESSION["userid"] = $record['userid'];
 					mysqli_free_result($selectResult);
@@ -84,6 +84,22 @@
 		$array = array();
 		$db = connectToDB();
 		$query = sprintf("select * from %s where userid='%s'", "carpooltable", $userid);
+		$selectResult = mysqli_query($db, $query);
+		if ($selectResult) {
+			while ($record = mysqli_fetch_array($selectResult, MYSQLI_ASSOC)) {
+				array_push($array, $record);
+			}
+			return $array;
+		}
+		mysqli_free_result($selectResult);
+		mysqli_close($db);
+		return false;
+	}
+	
+	function getACarpoolRecord($carpoolid) {
+		$array = array();
+		$db = connectToDB();
+		$query = sprintf("select * from %s where carpoolid='%s'", "carpooltable", $carpoolid);
 		$selectResult = mysqli_query($db, $query);
 		if ($selectResult) {
 			while ($record = mysqli_fetch_array($selectResult, MYSQLI_ASSOC)) {
