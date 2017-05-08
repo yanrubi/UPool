@@ -49,9 +49,9 @@
 			}
 			.profilecon{
 				height: 100%;
-				width: 600px;
+				width: 60%;
 				position: relative;
-				left:40%;
+				left:30%;
 				z-index: 1;
 				top: 20px;
 				align:center;
@@ -110,7 +110,7 @@
 					<div class="dropdown-content">
 					  <a href="profile.php">My UPOOL</a>
 					  <a href="trips.php">Trips</a>
-					  <a href="#">Log out</a>
+					  <a href="logout.php">Log out</a>
 					</div>
 				  </div>
 				</div>
