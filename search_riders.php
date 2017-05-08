@@ -109,8 +109,8 @@ PAGE1;
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
-						<li class="active"><a href="searchRiders.php">Riders</a></li>
-						<li><a href="search.html">Drivers</a></li>
+						<li class="active"><a href="search_riders.php">Riders</a></li>
+						<li><a href="search_drivers.php">Drivers</a></li>
 					</ul>
 					
 					<div class="dropdown navbar-right">
