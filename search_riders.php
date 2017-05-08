@@ -33,7 +33,7 @@
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="search_riders.php">Riders</a></li>
-						<li><a href="search.html">Drivers</a></li>
+						<li><a href="search_drivers.php">Drivers</a></li>
 					</ul>
 					
 					<div class="dropdown navbar-right">
@@ -41,7 +41,7 @@
 						<div class="dropdown-content">
 						  <a href="#">My UPOOL</a>
 						  <a href="#">Settings</a>
-						  <a href="#">Log out</a>
+						  <a href="logout.php">Log out</a>
 						</div>
 					</div>
 				</div>
@@ -65,7 +65,7 @@
 					<input name="submit" type="submit" onclick="processData();" value="Join Carpool"/>
 					
 					<div id="carpools"></div>
-				</form>
+					</form>
 			</div>
 	
 			<div class="body">
