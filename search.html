@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<link rel="stylesheet" href="test.css">
+		<link rel="stylesheet" href="search.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
@@ -22,8 +22,8 @@
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
-						<li class="active"><a href="#">Riders</a></li>
-						<li><a href="#">Drivers</a></li>
+						<li><a href="#">Riders</a></li>
+						<li class="active"><a href="#">Drivers</a></li>
 					</ul>
 					
 					<div class="dropdown navbar-right">
@@ -50,7 +50,7 @@
 			&nbsp;&nbsp;Start Time:&nbsp;<input type="time" id="starttime" step="300">
 			&nbsp;&nbsp;Arrival Time:&nbsp;<input type="time" id="arrivaltime" step="300"><br />
 			<div class="error" id="timeerror">&nbsp;</div>
-			&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button onclick="processData();">Make carpool</button>
+			&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button onclick="processData();">Make Carpool</button>
 		</div>
 		
 		<div class="body">
@@ -82,8 +82,7 @@
 						
 						infoWindow.setPosition(pos);
 						map.setCenter(pos);
-						marker.setMap(null);
-						marker = new google.maps.Marker({pos, map: map});
+						marker.setPosition(pos);
 					}, function() {
 						handleLocationError(true, infoWindow, map.getCenter());
 					});
