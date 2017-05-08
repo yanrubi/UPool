@@ -41,6 +41,10 @@
 
 .show {display:block;}
 
+.align-right {
+    right: 20px;
+}
+
 .sidebar {
     width: 21.9vw;
     height: 94.4vh;
@@ -48,6 +52,8 @@
     left: 0px;
     top: 55px;
     border: 1px solid black;
+    overflow-y: scroll;
+    overflow-x:hidden;
 }
 
 .error {

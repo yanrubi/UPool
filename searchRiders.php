@@ -1,6 +1,6 @@
 <?php
 	declare(strict_types=1);
-	require_once("database.php");
+	//require_once("database.php");
 	
 	$page = <<<PAGE
 <!DOCTYPE html>
@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="search.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<script src="search_riders.js"></script>
+		<script src="search_rider.js"></script>
 	</head>
 PAGE;
 
@@ -39,8 +39,8 @@ PAGE;
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
-						<li class="active"><a href="search_riders.php">Riders</a></li>
-						<li><a href="search_drivers.php">Drivers</a></li>
+						<li class="active"><a href="searchRiders.php">Riders</a></li>
+						<li><a href="search.html">Drivers</a></li>
 					</ul>
 					
 					<div class="dropdown navbar-right">

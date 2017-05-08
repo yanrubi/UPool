@@ -193,7 +193,7 @@
 		}
 		else {
 			if (registerNewAccount($email, $password, $firstname, $lastname)) {
-				header('Location: search.html');
+				header('Location: search_riders.php');
 			}
 			else {
 				header('Location: main.html');
