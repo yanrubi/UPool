@@ -281,5 +281,4 @@
 	else if (!isset($_SESSION['userid'])){
 		header('Location: main.html');
 	}
-    }
 ?>
