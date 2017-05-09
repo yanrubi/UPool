@@ -1,13 +1,10 @@
 <?php
-
     session_start();
-
     function connectToDB() {
 	    $host = "localhost";
 	    $user = "upooluser";
 	    $password = "pass";
 	    $database = "upooldb";
-
 	    $db = mysqli_connect($host, $user, $password, $database);
 	    if (mysqli_connect_errno()) {
 		    echo "Connect failed.\n".mysqli_connect_error();
@@ -15,7 +12,6 @@
 	    }
 	    return $db;
     }
-
 	function emailAlreadyInUse($email) {
 		$db = connectToDB();
 		$query = sprintf("select * from %s where email='%s'", "usertable", $email);
@@ -104,6 +100,42 @@
 		if ($selectResult) {
 			while ($record = mysqli_fetch_array($selectResult, MYSQLI_ASSOC)) {
 				array_push($array, $record);
+			}
+			return $array;
+		}
+		mysqli_free_result($selectResult);
+		mysqli_close($db);
+		return false;
+	}
+	
+	function getAllPassengersForCar($carpoolid){
+		$array = array();
+		$db = connectToDB();
+		$query = sprintf("select * from %s where carpoolid='%s'", "passengertable", $carpoolid);
+		$selectResult = mysqli_query($db, $query);
+		if ($selectResult) {
+			while ($record = mysqli_fetch_array($selectResult, MYSQLI_ASSOC)) {
+				array_push($array, $record);
+			}
+			return $array;
+		}
+		mysqli_free_result($selectResult);
+		mysqli_close($db);
+		return false;
+	}
+	
+	function getAllCarpoolRecordsForUserAsPassenger($userid) {
+		$array = array();
+		$db = connectToDB();
+		$query = sprintf("select * from %s where passengeruserid='%s'", "passengertable", $userid);
+		$selectResult = mysqli_query($db, $query);
+		if ($selectResult) {
+			while ($record = mysqli_fetch_array($selectResult, MYSQLI_ASSOC)) {
+				$query2 = sprintf("select * from %s where carpoolid='%s'", "carpooltable", $record["carpoolid"]);
+				$selectResult2 = mysqli_query($db, $query2);
+				while ($record2 = mysqli_fetch_array($selectResult2, MYSQLI_ASSOC)) {
+					array_push($array, $record2);
+				}
 			}
 			return $array;
 		}
