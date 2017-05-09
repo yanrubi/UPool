@@ -279,7 +279,6 @@
     }
 	elseif (isset($_POST["start"]) && isset($_POST["destination"]) && isset($_POST["date"])
 			&& isset($_POST["starttime"]) && isset($_POST["arrivaltime"]) && isset($_POST["seats"])) {
-		session_start();
 		$userid = $_SESSION["userid"];
 		$start = trim($_POST["start"]);
 		$destination = trim($_POST["destination"]);
