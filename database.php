@@ -277,17 +277,17 @@
 			header('Location: main.html');
 		}
     }
-	elseif (isset($_GET["start"]) && isset($_GET["destination"]) && isset($_GET["date"])
-			&& isset($_GET["starttime"]) && isset($_GET["arrivaltime"]) && isset($_GET["seats"])) {
+	elseif (isset($_POST["start"]) && isset($_POST["destination"]) && isset($_POST["date"])
+			&& isset($_POST["starttime"]) && isset($_POST["arrivaltime"]) && isset($_POST["seats"])) {
 		session_start();
 		$userid = $_SESSION["userid"];
-		$start = trim($_GET["start"]);
-		$destination = trim($_GET["destination"]);
-		$date = trim($_GET["date"]);
-		$starttime = trim($_GET["starttime"]);
-		$arrivaltime = trim($_GET["arrivaltime"]);
-		$seats = trim($_GET["seats"]);
-		if (isset($_GET["repeatweekly"]))
+		$start = trim($_POST["start"]);
+		$destination = trim($_POST["destination"]);
+		$date = trim($_POST["date"]);
+		$starttime = trim($_POST["starttime"]);
+		$arrivaltime = trim($_POST["arrivaltime"]);
+		$seats = trim($_POST["seats"]);
+		if (isset($_POST["repeatweekly"]))
 			$repeatweekly = true;
 		else
 			$repeatweekly = false;
