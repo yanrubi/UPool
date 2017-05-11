@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2017 at 06:15 PM
+-- Generation Time: May 11, 2017 at 06:22 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -19,6 +19,52 @@ SET time_zone = "+00:00";
 --
 -- Database: `upooldb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `carpooltable`
+--
+
+CREATE TABLE `carpooltable` (
+  `carpoolid` int(11) NOT NULL,
+  `userid` int(11) DEFAULT NULL,
+  `start` varchar(95) DEFAULT NULL,
+  `destination` varchar(95) DEFAULT NULL,
+  `date` varchar(10) DEFAULT NULL,
+  `starttime` varchar(10) DEFAULT NULL,
+  `arrivaltime` varchar(10) DEFAULT NULL,
+  `repeatweekly` int(11) DEFAULT NULL,
+  `seats` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `carpooltable`
+--
+
+INSERT INTO `carpooltable` (`carpoolid`, `userid`, `start`, `destination`, `date`, `starttime`, `arrivaltime`, `repeatweekly`, `seats`) VALUES
+(1, 2, 'Seven Springs Apartments, College Park, MD 20740', 'Adele H. Stamp Student Union, College Park, MD 20742', '05/12/2017', '08:30', '09:00', NULL, 2),
+(2, 1, 'Mazza GrandMarc Apartments, College Park, MD 20740', 'McKeldin Mall, University of Maryland, College Park, MD 20742', '05/12/2017', '08:45', '09:00', NULL, 3),
+(3, 1, '4810 Blackfoot Rd, College Park, MD 20740, USA', '3972 Campus Dr, College Park, MD 20740, USA', '2017-06-01', '05:00', '06:00', 0, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `passengertable`
+--
+
+CREATE TABLE `passengertable` (
+  `carpoolid` int(11) DEFAULT NULL,
+  `passengeruserid` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `passengertable`
+--
+
+INSERT INTO `passengertable` (`carpoolid`, `passengeruserid`) VALUES
+(1, 1),
+(2, 1);
 
 -- --------------------------------------------------------
 
@@ -53,6 +99,12 @@ INSERT INTO `usertable` (`userid`, `email`, `password`, `firstname`, `lastname`,
 --
 
 --
+-- Indexes for table `carpooltable`
+--
+ALTER TABLE `carpooltable`
+  ADD PRIMARY KEY (`carpoolid`);
+
+--
 -- Indexes for table `usertable`
 --
 ALTER TABLE `usertable`
@@ -62,6 +114,11 @@ ALTER TABLE `usertable`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `carpooltable`
+--
+ALTER TABLE `carpooltable`
+  MODIFY `carpoolid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `usertable`
 --
