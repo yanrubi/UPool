@@ -108,9 +108,9 @@
 					<div class="dropdown navbar-right">
 					<button class="dropbtn">Profile &#9660;</button>
 					<div class="dropdown-content">
-					  <a href="profile.php">My UPOOL</a>
-					  <a href="trips.php">Trips</a>
-					  <a href="logout.php">Log out</a>
+						<a href="profile.php">My UPOOL</a>
+						<a href="trips.php">Trips</a>
+						<a href="logout.php">Log out</a>
 					</div>
 				  </div>
 				</div>
@@ -119,6 +119,9 @@
 		
 		<div id="mySidenav" class="sidenav">
 			<div class="penal">
+			<?php
+				displayimage($_SESSION["userid"]);
+			?>
 				<a href="trips.php"> My Trips</a>
 				<a href="profile.php"> My Profile</a>
 				<a href="logout.php"> Logout</a>
@@ -152,6 +155,22 @@
 				
 			?>
 			</p>
+			<h3>Profile Image</h3>
+			<form action="profile.php" method="post" enctype="multipart/form-data">
+			<input type="file" name="image"/>
+			<input type="submit" name = "sumitimage" value="Upload"/>
+			</form>
+			<?php
+				if(isset($_POST['sumitimage'])){
+					if(getimagesize($_FILES['image']['tmp_name'])== FALSE){
+						
+					} else{
+						$image = addslashes(file_get_contents($_FILES['image']['tmp_name']));
+						$imageProperties = getimageSize($_FILES['image']['tmp_name']);
+						saveimage($_SESSION["userid"], $imageProperties, $image);
+					}
+				}
+			?>
 			<h2>Change Password</h2>
 			<form action="profile.php" method="post" id ="form">
 				<p>Old Password:</p>
