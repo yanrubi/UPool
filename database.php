@@ -61,7 +61,7 @@
 		else {
 			$db = connectToDB();
 			$query = sprintf("insert into %s (email, password, firstname, lastname) values ('%s', '%s', '%s', '%s')",
-							"usertable", $email, $password, $firstname, $lastname);
+							"usertable", $email, password_hash(trim($password), PASSWORD_DEFAULT), $firstname, $lastname);
 			$insertResult = mysqli_query($db, $query);
 			if ($insertResult) {
 				login($email, $password);
@@ -78,7 +78,7 @@
 		if ($selectResult) {
 			if (mysqli_num_rows($selectResult) != 0) {
 				$record = mysqli_fetch_array($selectResult, MYSQLI_ASSOC);
-				if ($record['password'] == $password) {
+				if (password_verify($password, $record['password'])) {
 					session_start();
 					$_SESSION["userid"] = $record['userid'];
 					mysqli_free_result($selectResult);
